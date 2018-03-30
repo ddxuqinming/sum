@@ -14,7 +14,7 @@ import java.util.*;
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
  * Date:     2018/3/26 20:48
- * Description:  带key，value的map
+ * Description:  带key，value的map。key不分大小写
  */
 public class KeyValueListOf<TKey,TValue> {
 
@@ -33,7 +33,8 @@ public class KeyValueListOf<TKey,TValue> {
     }
 
     public  TValue getValue(TKey key ){
-       return collName.get(key );
+        TKey key2=getKeyIgnoreCase(key);
+       return collName.get(key2 );
     }
 
     public  TValue getValue(int index){
@@ -41,12 +42,35 @@ public class KeyValueListOf<TKey,TValue> {
         return getValue(key );
     }
     public  void remove(TKey key){
+        TKey key2=getKeyIgnoreCase(key);
         collName.remove(key);
         lstIndex.remove(key);
 
     }
+
     public  int size( ){
         return lstIndex.size();
     }
 
+    private TKey getKeyIgnoreCase(TKey key){
+        for(TKey k:collName.keySet()){
+            if(k.toString().equalsIgnoreCase(key.toString())){
+                return k;
+            }
+        }
+        return null;
+
+    }
+
+    public String toString(){
+        String text="{";
+        boolean first=true;
+        for(TKey k:collName.keySet()){
+            if (!first)   text += ",";
+            text += k.toString() + ":" + collName.get(k) ;
+            first=false;
+          }
+        text+="}";
+         return  text ;
+    }
 }

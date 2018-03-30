@@ -11,6 +11,8 @@
 package sum.dataprovider;
 import java.sql.Types;
 import java.sql.*;
+import java.util.HashMap;
+import  sum.common.*;
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -21,7 +23,7 @@ public class test {
 
 
     public static void main(String[] args)  {
-        System.out.print("loading... xqm");
+        System.out.println("loading... xqm");
        new test().testDataAccess();
 
     }
@@ -42,9 +44,13 @@ public class test {
 
         DataAccess xudb=new DataAccess();
         xudb.initMySqlUrl("localhost",3306,"xusoft","root","111","");
-        System.out.println(xudb.getUrl());
-       int i= xudb.executeUpdate("update uemployee set FName='AA'");
-        System.out.println(i);
+       // System.out.println(xudb.getUrl());
+       // xudb.beginTrans();
+        int i= xudb.exeSql("update uemployee set FName='AA2'");
+      //  xudb.rollbackTrans();
+         DataTable  dtb= xudb.getDataTable("select FName from uemployee where 1=1");
+        dtb.columns(0).setCaption("姓名");
+        System.out.println("v=" + dtb.columns(0).getCaption() );
 
     }
 

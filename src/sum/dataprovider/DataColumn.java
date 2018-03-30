@@ -20,7 +20,13 @@ public class DataColumn {
     private String columnName;
     private String caption;
     private  int type;
-
+    public DataColumn(){
+      }
+    public DataColumn( String columnName,String caption,int type){
+        this.columnName=columnName;
+        this.caption=caption;
+        this.type=type;
+    }
     public int getType() {
         return type;
     }
