@@ -32,7 +32,7 @@ public class test {
         dtb.columns().add("FName","姓名", Types.VARCHAR );
         DataRow drw=dtb.newRow();
         drw.Add("FID",1);
-        drw.Add("FName","徐秦敏2");
+        drw.Add("FName","xqm");
 
         System.out.println("size=" + dtb.rows(0).getValue("FName"));
     }
