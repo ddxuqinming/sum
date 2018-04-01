@@ -35,6 +35,36 @@ public class DataRow {
     public Object getValue(int columnIndex){
         return   this.fieldValueColl.getValue(columnIndex);
     }
+
+    public String getAsString(String columnName){
+        Object v=this.fieldValueColl.getValue(columnName);
+        if (v==null) return "";
+        else  return  v.toString();
+     }
+    public     Integer getAsInteger(String columnName){
+        Object v=this.fieldValueColl.getValue(columnName);
+        if (v==null) return null;
+        else  return  Integer.parseInt(v.toString());
+    }
+    public     int getAsIntegerZ(String columnName){
+        Object v=this.fieldValueColl.getValue(columnName);
+        if (v==null) return 0;
+        else  return  Integer.parseInt(v.toString());
+    }
+    public    Double getAsDouble(String columnName){
+        Object v=this.fieldValueColl.getValue(columnName);
+        if (v==null) return null;
+        else  return  Double.parseDouble(v.toString());
+    }
+    public      double getAsDoubleZ(String columnName){
+        Object v=this.fieldValueColl.getValue(columnName);
+         if (v==null) return 0d;
+         else  return  Double.parseDouble(v.toString());
+
+
+    }
+
+
     public  int size(){
         return fieldValueColl.size();
     }

@@ -45,7 +45,7 @@ public class DataAccess {
                         conn = DriverManager.getConnection(url);
                 }
          } catch (Exception ex) {
-               //throw new Exception(ex.getMessage());
+               //throw new SQLException(ex.getMessage());
                throw new RuntimeException(ex);
          }
         return conn;
@@ -58,12 +58,13 @@ public class DataAccess {
         try {
             conn = getConnection();
             Statement stmt = null;
+
              stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(sql);
             stmt=null;
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
         return rs;
@@ -73,7 +74,7 @@ public class DataAccess {
         blnbeginTrans=true;
         try {
             getConnection().setAutoCommit(false);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             throw new RuntimeException(ex);
         }
 
@@ -83,7 +84,7 @@ public class DataAccess {
         try {
             this.conn.commit();
             this.conn.setAutoCommit(true);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             blnbeginTrans=false;
             throw new RuntimeException(ex);
         }
@@ -94,41 +95,78 @@ public class DataAccess {
         try {
             this.conn.rollback();
             this.conn.setAutoCommit(true);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             blnbeginTrans=false;
             throw new RuntimeException(ex);
         }
 
     }
-   /*
-   *返回影响的行数
-   */
+    /* *
+     * 修改，删除语句,返回影响数
+     */
     public int exeSql(String sql)  {
         int result = -1;
         try {
             conn = getConnection();
 
             Statement stmt = null;
-
             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             result = stmt.executeUpdate(sql);        //执行更新操作
             stmt.close();
             stmt = null;
 
-        }catch (Exception ex){
+        }catch (SQLException ex){
 
             throw new RuntimeException(ex);
         }
         return result;
     }
-    /**
-     * 查询SQL语句，预期结果为一个String数组，返回结果
-     *
-     * @param sql
-     *            所要执行的sql语句
-     * @return 返回值为预期结果
+
+    /* *
+      * 修改，删除语句,返回影响数
+    */
+    public int exeSql(String sql,Object[] params)  {
+           int result = -1;
+            conn = getConnection();
+            PreparedStatement stmt;
+            try {
+                stmt= conn.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+                 for(int i=0;i<params.length;i++){
+                     stmt.setObject(i+1,params[i]);
+                }
+                result =  stmt.executeUpdate();
+                stmt.close();
+                stmt = null;
+
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+        return result;
+    }
+    /* *
+     * 返回自动递增列值
      */
+    public int insert(String sql,Object... params)  {
+        int result = -1;
+        conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            for(int i=0;i<params.length;i++){
+                stmt.setObject(i+1,params[i]);
+
+            }
+            stmt.executeUpdate();
+            ResultSet rsKey = stmt.getGeneratedKeys();
+            rsKey.next();
+            result= rsKey.getInt(1);     //得到第一个键值
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return result;
+    }
     public DataResult executeScalar(String sql)  {
         ResultSet rs = getResultSet(sql);
         DataResult dt=new DataResult();
@@ -142,7 +180,7 @@ public class DataAccess {
              }
             rs.close();
             return dt;
-        }catch (Exception ex){
+        }catch (SQLException ex){
 
             throw new RuntimeException(ex);
         }
@@ -159,7 +197,7 @@ public class DataAccess {
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
             for(int i=0;i<rsmd.getColumnCount();i++) {
-                names.put(   rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
+                names.put(rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
 
             }
         } catch (SQLException e) {
@@ -183,12 +221,13 @@ public class DataAccess {
             }
             rs.close();
             return hst;
-        }catch (Exception ex){
+        }catch (SQLException ex){
 
             throw new RuntimeException(ex);
         }
-
     }
+
+
     public boolean isExist(String sql)  {
         ResultSet rs = getResultSet(sql);
         boolean b=false;
@@ -196,7 +235,7 @@ public class DataAccess {
             if (rs.next())   b=  true;
             rs.close();
 
-        }catch (Exception ex){
+        }catch (SQLException ex){
 
             throw new RuntimeException(ex);
         }
@@ -218,19 +257,36 @@ public class DataAccess {
             while (rs.next()) {
                 DataRow drw=dtb.newRow();
                 for(String name:fields.keySet()) {
-
-                     drw.Add(name,rs.getObject(name) );
+                    drw.Add(name,rs.getObject(name) );
+                    drw.setDataRowState( DataRowState.Unchanged );
                 }
             }
             rs.close();
             return dtb;
-        }catch (Exception ex){
+        }catch (SQLException ex){
 
             throw new RuntimeException(ex);
         }
     }
 
-    public void close()   throws Exception{
+    public void close()   throws SQLException{
           if (conn != null)     conn.close();
      }
+    public <T>  T getItem(String sql ,ResultSetHandler<T> rsh)  {
+        try {
+        ResultSet rs = getResultSet(sql);
+        T result = null;
+        result = rsh.handle(rs);
+        rs.close();
+        return result;
+        }catch (SQLException ex){
+              throw new RuntimeException(ex);
+        }
+    }
+
+     public interface ResultSetHandler<T>{
+         T handle(ResultSet rs) throws SQLException;
+     }
+     
+
 }

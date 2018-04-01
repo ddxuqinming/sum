@@ -65,11 +65,21 @@ public class KeyValueListOf<TKey,TValue> {
     public String toString(){
         String text="{";
         boolean first=true;
-        for(TKey k:collName.keySet()){
-            if (!first)   text += ",";
-            text += k.toString() + ":" + collName.get(k) ;
-            first=false;
-          }
+        //ArrayList不会按put的顺序输出，如key为 FID,FName测试
+      //  for(TKey k:collName.keySet()){
+          //  if (!first)   text += ",";
+           // text += k.toString() + ":" + collName.get(k) ;
+           // first=false;
+        //  }
+
+        String k;
+        for (int i=0;i<lstIndex.size();i++){
+             k=lstIndex.get(i).toString();
+             if (!first)   text += ",";
+             text += k.toString() + ":" + collName.get(k) ;
+             first=false;
+
+        }
         text+="}";
          return  text ;
     }

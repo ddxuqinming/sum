@@ -55,7 +55,6 @@ public class DataTable {
         int size=dataColumns.size();
         for (int i=0;i<size-1;i++){
             row.Add(dataColumns.getDataColumn(i).getColumnName(),null);
-
         }
         this.dataRows.add(row);
         return row;
