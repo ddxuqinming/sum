@@ -83,4 +83,13 @@ public class KeyValueListOf<TKey,TValue> {
         text+="}";
          return  text ;
     }
+
+    public boolean isExist(TKey key){
+        TKey key2=getKeyIgnoreCase(key);
+        return lstIndex.contains(key);
+    }
+    public int getKeyIndex(TKey key){
+        TKey key2=getKeyIgnoreCase(key);
+         return lstIndex.indexOf(key);
+    }
 }

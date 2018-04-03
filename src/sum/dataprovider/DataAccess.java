@@ -18,7 +18,7 @@ import  sum.common.*;
 public class DataAccess {
 
     private String className;//"com.mysql.jdbc.Driver";
-    private String url;// "jdbc:mysql://127.0.0.1:3306/db_librarySys?user=root&password=111&useUnicode=true";
+    private String url;// "jdbc:mysql://127.0.0.1:3306/db_librarySys?user=root&password=111&useUnicode=true&characterEncoding=utf-8";
     private Connection conn = null;
     private  boolean blnbeginTrans=false;
      public DataAccess(){
@@ -30,6 +30,7 @@ public class DataAccess {
     }
      public void initMySqlUrl(String ip,int port,String dbName,String user,String password,String ext){
     className="com.mysql.jdbc.Driver";
+    if (ext==null)  ext="&useUnicode=true&characterEncoding=utf-8";
     url="jdbc:mysql://%s:%s/%s?user=%s&password=%s" + ext;
     url=String.format(url, ip,port,dbName,user,password);
 }
@@ -196,6 +197,7 @@ public class DataAccess {
         HashMap <String,Integer> names = new HashMap <String,Integer>();
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
+
             for(int i=0;i<rsmd.getColumnCount();i++) {
                 names.put(rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
 
@@ -282,6 +284,20 @@ public class DataAccess {
         }catch (SQLException ex){
               throw new RuntimeException(ex);
         }
+    }
+
+    public int saveTable(DataTable dataTable,String tableName){
+        if (dataTable.rows().size()==0) return  -1;
+        for (int i=0;i< dataTable.rows().size();i++){
+            if  (dataTable.rows(i).getDataRowState()==DataRowState.Added)
+                insertrow(dataTable.rows(i),tableName);
+         }
+        return -1;
+
+    }
+    private int insertrow( DataRow dataRow,String tableName){
+          return -1;
+
     }
 
      public interface ResultSetHandler<T>{

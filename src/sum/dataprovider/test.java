@@ -51,7 +51,7 @@ public class test {
 
     private   void  testDataAccess() {
         DataAccess xudb=new DataAccess();
-        xudb.initMySqlUrl("localhost",3306,"xusoft","root","111","");
+        xudb.initMySqlUrl("localhost",3306,"xusoft","root","111",null);
        // System.out.println(xudb.getUrl());
        // xudb.beginTrans();
         int i= xudb.exeSql("update uemployee set FName='AA2' where  FName=?",  new Object[]{"7"});
@@ -73,14 +73,11 @@ public class test {
          }
      });
 
-         KeyValueListOf<String,Object> hst3=new KeyValueListOf<>();
+         int fid= xudb.insert("insert uemployee(FName)value(?)","new徐秦敏");
 
+String s="a,b,徐秦敏";
 
-
-         hst3.add("111F1Name","1");
-        hst3.add("F55ID","2");
-        hst3.add("111F1Name2","3");
-        System.out.println("v=" + hst3  );
+        System.out.println("v=" +  Func.trimEnd(s,"秦敏")  );
 
     }
 

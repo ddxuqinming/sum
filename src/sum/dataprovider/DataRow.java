@@ -57,7 +57,7 @@ public class DataRow {
         else  return  Double.parseDouble(v.toString());
     }
     public      double getAsDoubleZ(String columnName){
-        Object v=this.fieldValueColl.getValue(columnName);
+         Object v=this.fieldValueColl.getValue(columnName);
          if (v==null) return 0d;
          else  return  Double.parseDouble(v.toString());
 
@@ -73,5 +73,10 @@ public class DataRow {
     }
     public  DataRowState getDataRowState(){
        return  rowState;
+    }
+
+    public int getColumnIndex(String columnName){
+       return   this.fieldValueColl.getKeyIndex(columnName);
+
     }
 }
