@@ -56,28 +56,16 @@ public class test {
        // xudb.beginTrans();
         int i= xudb.exeSql("update uemployee set FName='AA2' where  FName=?",  new Object[]{"7"});
       //  xudb.rollbackTrans();
-         DataTable  dtb= xudb.getDataTable("select  null as FName from uEmployee where 1=1");
-        dtb.columns(0).setCaption("姓名");
-        double name= dtb.rows(0).getAsIntegerZ("FName")  ;
-//
-         HashMap<String,Object> hst=xudb.getItem("select * from uemployee", new DataAccess.ResultSetHandler<HashMap<String, Object>>() {
-         @Override
-         public HashMap<String, Object> handle(ResultSet rs) throws SQLException {
-             HashMap<String,Object> hst2=new HashMap<>();
-             if (rs.next()) {
+         DataTable  dtb= xudb.getDataTable("select  FID,FName,FAge from uEmployee where FID=1");
+       // dtb.rows(0).setValue("FName","这1");
+       // dtb.rows(1).setValue("FName","这2");
 
-                 hst2.put("FID",rs.getString("FID"));
-                 hst2.put("FName",rs.getString("FName"));
-             }
-             return hst2;
-         }
-     });
+      DataRow drw=  dtb.newRow();
+       drw.setValue("FName","这3444");
+      drw.setValue(2,"444");
+       xudb.saveTable(dtb,"uEmployee",new String[]{"FID"});
 
-         int fid= xudb.insert("insert uemployee(FName)value(?)","new徐秦敏");
 
-String s="a,b,徐秦敏";
-
-        System.out.println("v=" +  Func.trimEnd(s,"秦敏")  );
 
     }
 

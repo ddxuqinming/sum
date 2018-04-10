@@ -9,10 +9,10 @@ package sum.dataprovider;
 import jdk.nashorn.internal.ir.CatchNode;
 
 import java.sql.*;
-import java.util.HashMap;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import  sum.common.*;
 public class DataAccess {
@@ -21,6 +21,9 @@ public class DataAccess {
     private String url;// "jdbc:mysql://127.0.0.1:3306/db_librarySys?user=root&password=111&useUnicode=true&characterEncoding=utf-8";
     private Connection conn = null;
     private  boolean blnbeginTrans=false;
+
+    private  SQLCommand insertCommand;
+    private  SQLCommand updateCommand;
      public DataAccess(){
 
     }
@@ -145,6 +148,24 @@ public class DataAccess {
             }
         return result;
     }
+    public int exeSql(SQLCommand updateCommand)  {
+        int result = -1;
+        conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt= conn.prepareStatement(updateCommand.sqlText,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            for(int i=0;i<updateCommand.FieldValues.size();i++){
+                stmt.setObject(i+1,updateCommand.FieldValues.getValue(i));
+            }
+            result =  stmt.executeUpdate();
+            stmt.close();
+            stmt = null;
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return result;
+    }
     /* *
      * 返回自动递增列值
      */
@@ -156,6 +177,26 @@ public class DataAccess {
             stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             for(int i=0;i<params.length;i++){
                 stmt.setObject(i+1,params[i]);
+
+            }
+            stmt.executeUpdate();
+            ResultSet rsKey = stmt.getGeneratedKeys();
+            rsKey.next();
+            result= rsKey.getInt(1);     //得到第一个键值
+
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
+        }
+        return result;
+    }
+    public int insert(SQLCommand insertCommand)  {
+        int result = -1;
+        conn = getConnection();
+        PreparedStatement stmt;
+        try {
+            stmt = conn.prepareStatement(insertCommand.sqlText, Statement.RETURN_GENERATED_KEYS);
+            for(int i=0;i<insertCommand.FieldValues.size();i++){
+                stmt.setObject(i+1,insertCommand.FieldValues.getValue(i));
 
             }
             stmt.executeUpdate();
@@ -193,8 +234,8 @@ public class DataAccess {
      * @param rs
      * @return
      */
-    private HashMap  <String,Integer> getAllColumnName(ResultSet rs) {
-        HashMap <String,Integer> names = new HashMap <String,Integer>();
+    private LinkedHashMap  <String,Integer> getAllColumnName(ResultSet rs) {
+        LinkedHashMap <String,Integer> names = new LinkedHashMap <String,Integer>(); //LinkedHashMap的key是按顺序添加，newHashMap是按Key排序
         try {
             ResultSetMetaData rsmd = rs.getMetaData();
 
@@ -214,7 +255,7 @@ public class DataAccess {
         KeyValueListOf<String,Object>  hst=null;
         try {
             //获取数据库该表所有字段名
-            HashMap  <String,Integer> fields= getAllColumnName(rs);
+             LinkedHashMap  <String,Integer> fields= getAllColumnName(rs);
             if(rs.next()) {
                 hst=new KeyValueListOf<>();
                 for(String name:fields.keySet()) {
@@ -250,7 +291,7 @@ public class DataAccess {
         DataTable  dtb=new DataTable();
         try {
             //1加字段名称
-            HashMap  <String,Integer> fields= getAllColumnName(rs);
+             LinkedHashMap  <String,Integer> fields= getAllColumnName(rs);
             for(String name:fields.keySet()) {
                 DataColumn dcl=new DataColumn(name,name,fields.get(name) );
                 dtb.columns().add( name,dcl);
@@ -286,20 +327,52 @@ public class DataAccess {
         }
     }
 
-    public int saveTable(DataTable dataTable,String tableName){
+    public int saveTable(DataTable dataTable,String tableName, String[] keyFields){
         if (dataTable.rows().size()==0) return  -1;
+        insertCommand=null;
+        updateCommand=null;
+
+
         for (int i=0;i< dataTable.rows().size();i++){
             if  (dataTable.rows(i).getDataRowState()==DataRowState.Added)
-                insertrow(dataTable.rows(i),tableName);
+                insertRow(dataTable.rows(i),tableName);
+            else  if  (dataTable.rows(i).getDataRowState()==DataRowState.Modified)
+                updateRow(dataTable.rows(i),tableName,keyFields);
          }
         return -1;
 
     }
-    private int insertrow( DataRow dataRow,String tableName){
-          return -1;
+
+    private int insertRow( DataRow dataRow,String tableName){
+        if (insertCommand==null) {
+           CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+            insertCommand=commandBuilder.createInsertCommand(dataRow);
+        }else
+        {
+           String columnName ;
+            for(int i=0;i<insertCommand.FieldValues.size();i++) {
+                columnName= insertCommand.FieldValues.getKey(i);
+                insertCommand.FieldValues.setValue(columnName,dataRow.getValue(columnName));
+              }
+        }
+          return this.insert(insertCommand);
 
     }
+    private int updateRow( DataRow dataRow,String tableName,String[] keyFields){
+        if (updateCommand==null) {
+            CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+            updateCommand=commandBuilder.createUpdateCommand(dataRow,keyFields);
+        }else
+        {
+            String columnName ;
+            for(int i=0;i<updateCommand.FieldValues.size();i++) {
+                columnName= updateCommand.FieldValues.getKey(i);
+                updateCommand.FieldValues.setValue(columnName,dataRow.getValue(columnName));
+            }
+        }
+        return this.exeSql(updateCommand);
 
+    }
      public interface ResultSetHandler<T>{
          T handle(ResultSet rs) throws SQLException;
      }

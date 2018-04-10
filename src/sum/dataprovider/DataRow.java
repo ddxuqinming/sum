@@ -28,7 +28,16 @@ public class DataRow {
     public  void Add(String columnName, Object value){
         this.fieldValueColl.add(columnName,value);
     }
-
+    public void setValue(String columnName,Object value){
+            this.fieldValueColl.setValue(columnName,value);
+            if (this.rowState!=DataRowState.Added)
+              this.rowState=DataRowState.Modified;
+    }
+    public void setValue(int columnIndex,Object value){
+        this.fieldValueColl.setValue(columnIndex,value);
+        if (this.rowState!=DataRowState.Added)
+            this.rowState=DataRowState.Modified;
+    }
     public Object getValue(String columnName){
       return   this.fieldValueColl.getValue(columnName);
      }

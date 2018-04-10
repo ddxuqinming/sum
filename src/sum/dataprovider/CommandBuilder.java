@@ -12,6 +12,8 @@ package sum.dataprovider;
 import sum.common.Func;
 
 import java.sql.*;
+import java.util.List;
+import java.util.*;
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -32,22 +34,23 @@ public class CommandBuilder {
             ResultSetMetaData rsmd = rs.getMetaData();
             rs.close();
             //生成sql
-            String sql="insert into " + tableName ;
+            String sql="INSERT INTO   " + tableName ;
             String fields="";
             String values="";
             SQLCommand cmd=new SQLCommand();
             String columnName;
             for(int i=0;i<rsmd.getColumnCount();i++) {
                 columnName= rsmd.getColumnName(i + 1);
+
                // names.put(rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
-                if (! rsmd.isAutoIncrement(i)&& dataRow.getColumnIndex(columnName)>=0) {
+                if (! rsmd.isAutoIncrement(i + 1)&& dataRow.getColumnIndex(columnName)>=0) {
 
                     fields += columnName + ",";
                     values+="?" + ",";
                     cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
                 }
             }
-            sql=sql   + "(" + Func.trimEnd(fields,",") + ") values (" + Func.trimEnd(values,"'") + ")";
+            sql=sql   + "(" + Func.trimEnd(fields,",") + ") values (" + Func.trimEnd(values,",") + ")";
             cmd.sqlText = sql;
             return cmd;
         }catch (SQLException ex){
@@ -57,6 +60,49 @@ public class CommandBuilder {
 
 
       }
+
+    public  SQLCommand createUpdateCommand(DataRow dataRow,String[] keyFields){
+        try {
+            ResultSet rs= xudb.getResultSet("select * from " + tableName + " where 1=0");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            rs.close();
+            //生成sql
+            String sql="UPDATE " + tableName ;
+            String fields="";
+
+            SQLCommand cmd=new SQLCommand();
+            String columnName;
+
+            for(int i=0;i<rsmd.getColumnCount();i++) {
+                columnName= rsmd.getColumnName(i + 1);
+
+                if (! rsmd.isAutoIncrement(i + 1)&& !Func.ArrayIsExist(keyFields,columnName) && dataRow.getColumnIndex(columnName)>=0) {
+
+                    fields += columnName + "=?,";
+                    cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
+                }
+
+            }
+            //
+            String where="";
+            for(int i=0;i<keyFields.length;i++) {
+                columnName=keyFields[i];
+                if (i>0)  where += " and ";
+                 where += columnName + "=?";
+                cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
+
+
+            }
+            sql=sql   + " set " + Func.trimEnd(fields,",") + " where " +  where  ;
+            cmd.sqlText = sql;
+            return cmd;
+        }catch (SQLException ex){
+            throw new RuntimeException(ex);
+
+        }
+
+
+    }
 }
 
 

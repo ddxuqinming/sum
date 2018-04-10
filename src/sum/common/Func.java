@@ -10,6 +10,8 @@
  */
 package sum.common;
 
+import java.util.ArrayList;
+
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -26,4 +28,11 @@ package sum.common;
          else return text;
 
      }
+    public  static boolean ArrayIsExist(String[] ary, String value){
+        for(int i=0;i<ary.length;i++) {
+            if (ary[i].toString().equalsIgnoreCase(value))
+                return  true;
+        }
+        return  false;
+    }
 }

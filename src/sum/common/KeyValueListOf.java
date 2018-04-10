@@ -22,7 +22,7 @@ public class KeyValueListOf<TKey,TValue> {
     private   ArrayList <TKey> lstIndex ;//存放列索引
 
     public KeyValueListOf() {
-        this.collName = new HashMap<TKey, TValue>() ;
+        this.collName = new LinkedHashMap<TKey, TValue>() ;
         this.lstIndex=new ArrayList<TKey>();
     }
 
@@ -41,6 +41,18 @@ public class KeyValueListOf<TKey,TValue> {
         TKey key=lstIndex.get(index);
         return getValue(key );
     }
+    public  TKey getKey(int index){
+          return lstIndex.get(index);
+    }
+    public  void setValue(TKey key,TValue value ){
+        TKey key2=getKeyIgnoreCase(key);
+          collName.put(key2,value);
+    }
+
+    public  void setValue(int index,TValue value){
+        TKey key=lstIndex.get(index);
+        collName.put(key,value);
+    }
     public  void remove(TKey key){
         TKey key2=getKeyIgnoreCase(key);
         collName.remove(key);
@@ -53,9 +65,10 @@ public class KeyValueListOf<TKey,TValue> {
     }
 
     private TKey getKeyIgnoreCase(TKey key){
+       // return key;
         for(TKey k:collName.keySet()){
             if(k.toString().equalsIgnoreCase(key.toString())){
-                return k;
+              return k;
             }
         }
         return null;
@@ -86,10 +99,11 @@ public class KeyValueListOf<TKey,TValue> {
 
     public boolean isExist(TKey key){
         TKey key2=getKeyIgnoreCase(key);
-        return lstIndex.contains(key);
+        return lstIndex.contains(key2);
     }
     public int getKeyIndex(TKey key){
         TKey key2=getKeyIgnoreCase(key);
-         return lstIndex.indexOf(key);
+
+         return lstIndex.indexOf(key2);
     }
 }
