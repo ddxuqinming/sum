@@ -332,10 +332,15 @@ public class DataAccess {
         insertCommand=null;
         updateCommand=null;
 
-
+        int autoID=0;
         for (int i=0;i< dataTable.rows().size();i++){
-            if  (dataTable.rows(i).getDataRowState()==DataRowState.Added)
-                insertRow(dataTable.rows(i),tableName);
+            if  (dataTable.rows(i).getDataRowState()==DataRowState.Added){
+                autoID= insertRow(dataTable.rows(i),tableName);
+                if (dataTable.rows(i).AutoColumn!=""){
+                    dataTable.rows(i).setValue(dataTable.rows(i).AutoColumn,autoID);
+                }
+           }
+
             else  if  (dataTable.rows(i).getDataRowState()==DataRowState.Modified)
                 updateRow(dataTable.rows(i),tableName,keyFields);
          }

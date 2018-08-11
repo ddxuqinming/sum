@@ -20,6 +20,8 @@ import java.util.*;
 public class DataRow {
     private KeyValueListOf<String,  Object> fieldValueColl;
     private DataRowState rowState;
+    public DataTable dataTable;
+    public String AutoColumn="";
 
     public DataRow()   {
         fieldValueColl=new KeyValueListOf<String,  Object>();
@@ -30,13 +32,19 @@ public class DataRow {
     }
     public void setValue(String columnName,Object value){
             this.fieldValueColl.setValue(columnName,value);
-            if (this.rowState!=DataRowState.Added)
+            if (this.rowState!=DataRowState.Added &&this.rowState!=DataRowState.Deleted)
               this.rowState=DataRowState.Modified;
     }
     public void setValue(int columnIndex,Object value){
         this.fieldValueColl.setValue(columnIndex,value);
-        if (this.rowState!=DataRowState.Added)
+        if (this.rowState!=DataRowState.Added &&this.rowState!=DataRowState.Deleted)
             this.rowState=DataRowState.Modified;
+    }
+    public void  delete(){
+        if (this.rowState==DataRowState.Added)
+            dataTable.rows().remove(this);
+        else
+            this.rowState=DataRowState.Deleted;
     }
     public Object getValue(String columnName){
       return   this.fieldValueColl.getValue(columnName);

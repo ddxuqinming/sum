@@ -43,13 +43,18 @@ public class CommandBuilder {
                 columnName= rsmd.getColumnName(i + 1);
 
                // names.put(rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
-                if (! rsmd.isAutoIncrement(i + 1)&& dataRow.getColumnIndex(columnName)>=0) {
+                if (  rsmd.isAutoIncrement(i + 1) ) {
+                    dataRow.AutoColumn=columnName;
+                 }else   {
+                    if ( dataRow.getColumnIndex(columnName)>=0) {
 
-                    fields += columnName + ",";
-                    values+="?" + ",";
-                    cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
+                        fields += columnName + ",";
+                        values+="?" + ",";
+                        cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
+                    }
+
                 }
-            }
+              }
             sql=sql   + "(" + Func.trimEnd(fields,",") + ") values (" + Func.trimEnd(values,",") + ")";
             cmd.sqlText = sql;
             return cmd;

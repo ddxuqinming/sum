@@ -34,7 +34,7 @@ public class DataTable {
     public void setTableName(String tableName) {
         this.tableName = tableName;
     }
-     public DataRowCollection rows(){
+    public DataRowCollection rows(){
         return  dataRows;
       }
     public DataRow  rows(int index){
@@ -51,6 +51,7 @@ public class DataTable {
     }
     public  DataRow newRow(){
         DataRow row=new DataRow();
+        row.dataTable=this;
         row.setDataRowState(DataRowState.Added);
         int size=dataColumns.size();
         for (int i=0;i<size;i++){
@@ -58,6 +59,11 @@ public class DataTable {
         }
         this.dataRows.add(row);
         return row;
+     }
+    public void acceptChanges(){
+        for (int i=0;i<this.rows().size();i++)
+            this.rows(i).setDataRowState(DataRowState.Unchanged);
+
      }
 }
 

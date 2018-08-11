@@ -63,8 +63,9 @@ public class test {
       DataRow drw=  dtb.newRow();
        drw.setValue("FName","这3444");
       drw.setValue(2,"444");
+      drw.delete();
        xudb.saveTable(dtb,"uEmployee",new String[]{"FID"});
-
+        System.out.println("size=" + drw.getValue("FID"));
 
 
     }
