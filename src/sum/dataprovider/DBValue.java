@@ -1,6 +1,6 @@
 /**
  * Copyright (C), 2015-2018, XXX有限公司
- * FileName: DataResult
+ * FileName: DBValue
  * Author:   sun2
  * Date:     2018/3/30 20:23
  * Description: 返回单个值
@@ -16,7 +16,7 @@ package sum.dataprovider;
  * Date:     2018/3/30 20:23
  * Description:  返回单个值
  */
-public class DataResult {
+public class DBValue {
     public boolean HasValue=false;
     public boolean IsDBNull=false;
     public Object Value=null;

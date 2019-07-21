@@ -8,11 +8,10 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package sum.dataprovider;
+package sum.dataprovider.datatable;
 
 import sum.common.KeyValueListOf;
-import java.util.*;
-import java.sql.Types;
+
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -33,7 +32,7 @@ public class DataColumnCollection {
         this.fieldColl.add(columnName,column);
     }
     public  void add(String columnName,String caption,int  sqlType){
-        DataColumn dcl=new DataColumn();
+        DataColumn dcl=new  DataColumn();
         dcl.setColumnName(columnName);
         dcl.setCaption(caption);
         dcl.setType(sqlType);

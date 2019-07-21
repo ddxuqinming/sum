@@ -8,9 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package sum.dataprovider;
-
-import sum.common.KeyValueListOf;
+package sum.dataprovider.datatable;
 
 import java.util.ArrayList;
 import java.util.List;

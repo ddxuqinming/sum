@@ -8,7 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package sum.dataprovider;
+package sum.dataprovider.datatable;
 import java.sql.Types;
 /**
  * Copyright (C), 2015-2018,sum

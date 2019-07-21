@@ -8,9 +8,9 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package sum.dataprovider;
+package sum.dataprovider.datatable;
 import sum.common.KeyValueListOf;
-import java.util.*;
+
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -21,7 +21,7 @@ public class DataRow {
     private KeyValueListOf<String,  Object> fieldValueColl;
     private DataRowState rowState;
     public DataTable dataTable;
-    public String AutoColumn="";
+
 
     public DataRow()   {
         fieldValueColl=new KeyValueListOf<String,  Object>();

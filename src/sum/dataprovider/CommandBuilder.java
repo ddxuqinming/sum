@@ -10,10 +10,10 @@
  */
 package sum.dataprovider;
 import sum.common.Func;
+import sum.dataprovider.datatable.*;
 
 import java.sql.*;
-import java.util.List;
-import java.util.*;
+
 /**
  * Copyright (C), 2015-2018,sum
  * Author:   xqm
@@ -32,7 +32,7 @@ public class CommandBuilder {
         try {
             ResultSet rs= xudb.getResultSet("select * from " + tableName + " where 1=0");
             ResultSetMetaData rsmd = rs.getMetaData();
-            rs.close();
+
             //生成sql
             String sql="INSERT INTO   " + tableName ;
             String fields="";
@@ -44,7 +44,7 @@ public class CommandBuilder {
 
                // names.put(rsmd.getColumnName(i+1), rsmd.getColumnType(i+1)  );
                 if (  rsmd.isAutoIncrement(i + 1) ) {
-                    dataRow.AutoColumn=columnName;
+                    dataRow.dataTable.AutoColumn=columnName;
                  }else   {
                     if ( dataRow.getColumnIndex(columnName)>=0) {
 
@@ -55,6 +55,7 @@ public class CommandBuilder {
 
                 }
               }
+            rs.close();
             sql=sql   + "(" + Func.trimEnd(fields,",") + ") values (" + Func.trimEnd(values,",") + ")";
             cmd.sqlText = sql;
             return cmd;
@@ -66,11 +67,11 @@ public class CommandBuilder {
 
       }
 
-    public  SQLCommand createUpdateCommand(DataRow dataRow,String[] keyFields){
+    public  SQLCommand createUpdateCommand(DataRow dataRow, String[] keyFields){
         try {
             ResultSet rs= xudb.getResultSet("select * from " + tableName + " where 1=0");
             ResultSetMetaData rsmd = rs.getMetaData();
-            rs.close();
+
             //生成sql
             String sql="UPDATE " + tableName ;
             String fields="";
@@ -88,6 +89,7 @@ public class CommandBuilder {
                 }
 
             }
+            rs.close();
             //
             String where="";
             for(int i=0;i<keyFields.length;i++) {
@@ -102,6 +104,30 @@ public class CommandBuilder {
             cmd.sqlText = sql;
             return cmd;
         }catch (SQLException ex){
+            throw new RuntimeException(ex);
+
+        }
+
+
+    }
+
+    public  SQLCommand createDeleteCommand(DataRow dataRow, String[] keyFields){
+        try {
+              //生成sql
+            String sql="DELETE " + tableName ;
+            SQLCommand cmd=new SQLCommand();
+            String columnName;
+            String where="";
+            for(int i=0;i<keyFields.length;i++) {
+                columnName=keyFields[i];
+                if (i>0)  where += " and ";
+                where += columnName + "=?";
+                cmd.FieldValues.add(columnName,dataRow.getValue(columnName));
+           }
+            sql=sql    + " where " +  where  ;
+            cmd.sqlText = sql;
+            return cmd;
+        }catch (Exception ex){
             throw new RuntimeException(ex);
 
         }

@@ -6,24 +6,30 @@
  */
 package sum.dataprovider;
 
-import jdk.nashorn.internal.ir.CatchNode;
 
 import java.sql.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.LinkedHashMap;
 
+import com.sun.javafx.image.BytePixelSetter;
+import sum.business.FieldValueCollection;
 import  sum.common.*;
+import sum.dataprovider.datatable.*;
+
 public class DataAccess {
 
     private String className;//"com.mysql.jdbc.Driver";
     private String url;// "jdbc:mysql://127.0.0.1:3306/db_librarySys?user=root&password=111&useUnicode=true&characterEncoding=utf-8";
+    private String sqluser="";
+    private String sqlpwd;
     private Connection conn = null;
     private  boolean blnbeginTrans=false;
 
     private  SQLCommand insertCommand;
     private  SQLCommand updateCommand;
+    private  SQLCommand deleteCommand;
+
+    public boolean printSql=false;
      public DataAccess(){
 
     }
@@ -31,12 +37,20 @@ public class DataAccess {
         className=dbClassName;
         url=dbUrl;
     }
-     public void initMySqlUrl(String ip,int port,String dbName,String user,String password,String ext){
-    className="com.mysql.jdbc.Driver";
-    if (ext==null)  ext="&useUnicode=true&characterEncoding=utf-8";
-    url="jdbc:mysql://%s:%s/%s?user=%s&password=%s" + ext;
-    url=String.format(url, ip,port,dbName,user,password);
-}
+     public void createMySqlUrl(String ip,int port,String dbName,String user,String password,String ext){
+            className="com.mysql.jdbc.Driver";
+            if (ext==null)  ext="&useUnicode=true&characterEncoding=utf-8";
+            url="jdbc:mysql://%s:%s/%s?user=%s&password=%s" + ext;
+            url=String.format(url, ip,port,dbName,user,password);
+     }
+    public void createSqlServerUrl(String ip,int port,String dbName,String user,String password,String ext){
+        className="com.microsoft.sqlserver.jdbc.SQLServerDriver";
+        url = "jdbc:sqlserver://%s:%s;DatabaseName=%s";
+       //jdbc:sqlserver://localhost:1433;DatabaseName=S
+         url=String.format(url, ip,port,dbName);
+        sqluser=user;
+        sqlpwd=password;
+    }
      public   String  getUrl(){
         return  url;
      }
@@ -46,7 +60,10 @@ public class DataAccess {
                 if ( conn == null ) {
 
                         Class.forName(className).newInstance();
-                        conn = DriverManager.getConnection(url);
+                        if (sqluser!="")
+                           conn = DriverManager.getConnection(url,sqluser,sqlpwd);
+                        else
+                            conn = DriverManager.getConnection(url);
                 }
          } catch (Exception ex) {
                //throw new SQLException(ex.getMessage());
@@ -55,15 +72,13 @@ public class DataAccess {
         return conn;
     }
 
-
-
-    public ResultSet getResultSet(String sql)  {
+    public ResultSet getResultSet(String sql )  {
         ResultSet rs = null;
         try {
             conn = getConnection();
             Statement stmt = null;
 
-             stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+            stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
             rs = stmt.executeQuery(sql);
             stmt=null;
@@ -73,6 +88,8 @@ public class DataAccess {
         }
         return rs;
     }
+
+
 
     public  void  beginTrans(){
         blnbeginTrans=true;
@@ -109,6 +126,7 @@ public class DataAccess {
      * 修改，删除语句,返回影响数
      */
     public int exeSql(String sql)  {
+        if (printSql) System.out.println(sql);
         int result = -1;
         try {
             conn = getConnection();
@@ -119,6 +137,7 @@ public class DataAccess {
             result = stmt.executeUpdate(sql);        //执行更新操作
             stmt.close();
             stmt = null;
+
 
         }catch (SQLException ex){
 
@@ -131,6 +150,7 @@ public class DataAccess {
       * 修改，删除语句,返回影响数
     */
     public int exeSql(String sql,Object[] params)  {
+           if (printSql) System.out.println(sql);
            int result = -1;
             conn = getConnection();
             PreparedStatement stmt;
@@ -148,14 +168,15 @@ public class DataAccess {
             }
         return result;
     }
-    public int exeSql(SQLCommand updateCommand)  {
+    public int exeSql(SQLCommand command)  {
+        if (printSql) System.out.println(command.sqlText);
         int result = -1;
         conn = getConnection();
         PreparedStatement stmt;
         try {
-            stmt= conn.prepareStatement(updateCommand.sqlText,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
-            for(int i=0;i<updateCommand.FieldValues.size();i++){
-                stmt.setObject(i+1,updateCommand.FieldValues.getValue(i));
+            stmt= conn.prepareStatement(command.sqlText,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+            for(int i=0;i<command.FieldValues.size();i++){
+                stmt.setObject(i+1,command.FieldValues.getValue(i));
             }
             result =  stmt.executeUpdate();
             stmt.close();
@@ -170,6 +191,7 @@ public class DataAccess {
      * 返回自动递增列值
      */
     public int insert(String sql,Object... params)  {
+
         int result = -1;
         conn = getConnection();
         PreparedStatement stmt;
@@ -190,6 +212,7 @@ public class DataAccess {
         return result;
     }
     public int insert(SQLCommand insertCommand)  {
+        if (printSql) System.out.println(insertCommand.sqlText);
         int result = -1;
         conn = getConnection();
         PreparedStatement stmt;
@@ -209,9 +232,9 @@ public class DataAccess {
         }
         return result;
     }
-    public DataResult executeScalar(String sql)  {
+    public DBValue executeScalar(String sql)  {
         ResultSet rs = getResultSet(sql);
-        DataResult dt=new DataResult();
+        DBValue dt=new DBValue();
         try {
             if (rs.next()) {
                 dt.HasValue = true;
@@ -250,14 +273,14 @@ public class DataAccess {
     }
 
 
-    public KeyValueListOf<String,Object> getOneRowHashtable(String sql)  {
+    public FieldValueCollection getOneRowHashtable(String sql)  {
         ResultSet rs = getResultSet(sql);
-        KeyValueListOf<String,Object>  hst=null;
+        FieldValueCollection hst=null;
         try {
             //获取数据库该表所有字段名
              LinkedHashMap  <String,Integer> fields= getAllColumnName(rs);
             if(rs.next()) {
-                hst=new KeyValueListOf<>();
+                hst=new  FieldValueCollection();
                 for(String name:fields.keySet()) {
                     hst.add(name,  rs.getObject(name) );
                 }
@@ -286,7 +309,7 @@ public class DataAccess {
          return b;
     }
 
-    public  DataTable getDataTable(String sql)  {
+    public DataTable getDataTable(String sql )  {
         ResultSet rs = getResultSet(sql);
         DataTable  dtb=new DataTable();
         try {
@@ -331,27 +354,32 @@ public class DataAccess {
         if (dataTable.rows().size()==0) return  -1;
         insertCommand=null;
         updateCommand=null;
+        deleteCommand=null;
+
 
         int autoID=0;
         for (int i=0;i< dataTable.rows().size();i++){
-            if  (dataTable.rows(i).getDataRowState()==DataRowState.Added){
+            if  (dataTable.rows(i).getDataRowState()== DataRowState.Added){
                 autoID= insertRow(dataTable.rows(i),tableName);
-                if (dataTable.rows(i).AutoColumn!=""){
-                    dataTable.rows(i).setValue(dataTable.rows(i).AutoColumn,autoID);
+                if (dataTable.AutoColumn!=""){
+                    dataTable.rows(i).setValue(dataTable.AutoColumn,autoID);
                 }
            }
 
-            else  if  (dataTable.rows(i).getDataRowState()==DataRowState.Modified)
+            else  if  (dataTable.rows(i).getDataRowState()== DataRowState.Modified)
                 updateRow(dataTable.rows(i),tableName,keyFields);
+            else  if  (dataTable.rows(i).getDataRowState()== DataRowState.Deleted)
+                deleteRow(dataTable.rows(i),tableName,keyFields);
          }
         return -1;
 
     }
 
-    private int insertRow( DataRow dataRow,String tableName){
+    private int insertRow(DataRow dataRow, String tableName){
         if (insertCommand==null) {
            CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
             insertCommand=commandBuilder.createInsertCommand(dataRow);
+
         }else
         {
            String columnName ;
@@ -363,7 +391,7 @@ public class DataAccess {
           return this.insert(insertCommand);
 
     }
-    private int updateRow( DataRow dataRow,String tableName,String[] keyFields){
+    private int updateRow(DataRow dataRow, String tableName, String[] keyFields){
         if (updateCommand==null) {
             CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
             updateCommand=commandBuilder.createUpdateCommand(dataRow,keyFields);
@@ -378,9 +406,24 @@ public class DataAccess {
         return this.exeSql(updateCommand);
 
     }
-     public interface ResultSetHandler<T>{
-         T handle(ResultSet rs) throws SQLException;
-     }
+    private int deleteRow(DataRow dataRow, String tableName, String[] keyFields){
+        if (deleteCommand==null) {
+            CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+            deleteCommand=commandBuilder.createDeleteCommand(dataRow,keyFields);
+        }else
+        {
+            String columnName ;
+            for(int i=0;i<deleteCommand.FieldValues.size();i++) {
+                columnName= deleteCommand.FieldValues.getKey(i);
+                deleteCommand.FieldValues.setValue(columnName,dataRow.getValue(columnName));
+            }
+        }
+        return this.exeSql(deleteCommand);
+
+    }
+    public interface ResultSetHandler<T>{
+        T handle(ResultSet rs) throws SQLException;
+    }
      
 
 }

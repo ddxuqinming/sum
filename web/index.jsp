@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="sum.dataprovider.*" %>
 <%@ page import="java.sql.*" %>
+<%@ page import="sum.dataprovider.DataTable.DataTable" %>
 <html>
 <head>
     <title>Title</title>
@@ -17,7 +18,7 @@
  DataTable dtb=new DataTable();
      dtb.columns().add("FID","ID", java.sql.Types.TINYINT );
      dtb.columns().add("FName","姓名", Types.VARCHAR );
-       DataRow drw=dtb.newRow();
+       DataTable.DataRow drw=dtb.newRow();
        drw.Add("FID",1);
        drw.Add("FName","徐秦敏");
 

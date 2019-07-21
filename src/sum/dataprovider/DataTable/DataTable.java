@@ -8,7 +8,7 @@
  * <author>          <time>          <version>          <desc>
  * 作者姓名           修改时间           版本号              描述
  */
-package sum.dataprovider;
+package sum.dataprovider.datatable;
 
 /**
  * Copyright (C), 2015-2018,sum
@@ -20,9 +20,9 @@ public class DataTable {
 
 
     private  String tableName;
-    private  DataRowCollection dataRows;
-    private  DataColumnCollection dataColumns;
-
+    private DataRowCollection dataRows;
+    private DataColumnCollection dataColumns;
+    public String AutoColumn="";
     public  DataTable(){
         dataRows=new DataRowCollection();
         dataColumns=new DataColumnCollection();
@@ -37,19 +37,19 @@ public class DataTable {
     public DataRowCollection rows(){
         return  dataRows;
       }
-    public DataRow  rows(int index){
+    public DataRow rows(int index){
         return  dataRows.getDataRow(index);
     }
     public DataColumnCollection columns(){
         return  dataColumns;
     }
-    public DataColumn  columns(int index){
+    public DataColumn columns(int index){
         return  dataColumns.getDataColumn(index);
     }
-    public DataColumn  columns(String columnName){
+    public DataColumn columns(String columnName){
         return  dataColumns.getDataColumn(columnName);
     }
-    public  DataRow newRow(){
+    public DataRow newRow(){
         DataRow row=new DataRow();
         row.dataTable=this;
         row.setDataRowState(DataRowState.Added);

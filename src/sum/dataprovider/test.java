@@ -9,11 +9,11 @@
  * 作者姓名           修改时间           版本号              描述
  */
 package sum.dataprovider;
-import java.math.BigDecimal;
+import sum.business.ItemBase;
+import sum.business.ItemManageBase;
+import sum.dataprovider.datatable.*;
+
 import java.sql.Types;
-import java.sql.*;
-import java.util.HashMap;
-import  sum.common.*;
 import java.util.*;
 
 
@@ -29,11 +29,9 @@ public class test {
 
     public static void main(String[] args)  {
         System.out.println("loading... xqm");
-       new test().testDataAccess();
+       new test().testItembase();
 
-        List<Object> list = new ArrayList<Object>();
-        list.add(new Integer(5));
-        Object a = list.get(0);
+
     }
 
     private   void  testDataTable(){
@@ -50,24 +48,54 @@ public class test {
     }
 
     private   void  testDataAccess() {
-        DataAccess xudb=new DataAccess();
-        xudb.initMySqlUrl("localhost",3306,"xusoft","root","111",null);
-       // System.out.println(xudb.getUrl());
-       // xudb.beginTrans();
-        int i= xudb.exeSql("update uemployee set FName='AA2' where  FName=?",  new Object[]{"7"});
-      //  xudb.rollbackTrans();
-         DataTable  dtb= xudb.getDataTable("select  FID,FName,FAge from uEmployee where FID=1");
-       // dtb.rows(0).setValue("FName","这1");
-       // dtb.rows(1).setValue("FName","这2");
 
-      DataRow drw=  dtb.newRow();
-       drw.setValue("FName","这3444");
+        DataAccess xudb=new DataAccess();
+       // xudb.createMySqlUrl("localhost",3306,"xusoft","root","111",null);
+         xudb.createSqlServerUrl("localhost",1433,"a","sa","sina",null);
+        System.out.println(xudb.getUrl());
+        xudb.beginTrans();
+        int i= xudb.exeSql("update uemployee set FName='AA7' where  FID=?",  new Object[]{"2"});
+        xudb.rollbackTrans();
+        DataTable  dtb= xudb.getDataTable("select  FID,FName,FAge from uEmployee where FID=1");
+        dtb.rows(0).setValue("FName","这271");
+        // dtb.rows(1).setValue("FName","这2");
+        dtb.rows(0).delete();
+       DataRow drw=  dtb.newRow();
+        drw.setValue("FName","这3444");
       drw.setValue(2,"444");
-      drw.delete();
+
        xudb.saveTable(dtb,"uEmployee",new String[]{"FID"});
-        System.out.println("size=" + drw.getValue("FID"));
+        System.out.println("AutoID=" + drw.getValue("FID"));
 
 
     }
+    private   void  testItembase() {
 
+        DataAccess xudb=new DataAccess();
+       //  xudb.createMySqlUrl("localhost",3306,"xusoft","root","111",null);
+        xudb.createSqlServerUrl("localhost",1433,"a","sa","sina",null);
+        System.out.println(xudb.getUrl());
+        ItemManageBase M=new ItemManageBase("uEmployee","FID");
+        M.addChildDBTable("address","FMainId","uAddress",new String[]{"FAutoID"});
+        M.setXudb(xudb);
+        xudb.printSql=true;
+       ;
+        ItemBase item = M.getNewItem();
+        item.setValue("FName","喜地方new");
+        item.setValue("FAge","1");
+        //子表测试
+        DataTable dtb= item.ChildTables().getValue(0);
+        DataRow drw = dtb.newRow();
+        drw.setValue("FAdress","上海市嘉定区123号");
+        drw.setValue("FZip","230081");
+        DataRow drw3 = dtb.newRow();
+        drw3.setValue("FAdress","北京朝阳大道99号");
+        drw3.setValue("FZip","1001001");
+        //
+        M.add(item);
+
+
+        System.out.println("FAutoID=" + drw3.getValue("FAutoID"));
+
+    }
 }
