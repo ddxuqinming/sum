@@ -22,7 +22,7 @@ public class DataTable {
     private  String tableName;
     private DataRowCollection dataRows;
     private DataColumnCollection dataColumns;
-    public String AutoColumn="";
+
     public  DataTable(){
         dataRows=new DataRowCollection();
         dataColumns=new DataColumnCollection();
