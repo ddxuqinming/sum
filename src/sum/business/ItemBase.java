@@ -11,6 +11,7 @@
 package sum.business;
 
 import sum.common.KeyValueListOf;
+import sum.dataprovider.datatable.DataTable;
 
 /**
  * Copyright (C), 2015-2018,sum
@@ -32,6 +33,9 @@ public class ItemBase {
         return childTables;
     }
 
+    public DataTable getChildTable(int index) {
+        return ChildTables().getValue(index);
+    }
     public void setValue(String field,Object value){
         this.FieldValues().setValue(field,value);
     }

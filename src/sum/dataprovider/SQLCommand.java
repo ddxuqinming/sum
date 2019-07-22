@@ -20,6 +20,7 @@ import sum.common.KeyValueListOf;
  */
 public class SQLCommand {
     public  String sqlText;
+    public String AutoColumn="";
     public KeyValueListOf<String,Object> FieldValues;
     public SQLCommand(){
         sqlText="";

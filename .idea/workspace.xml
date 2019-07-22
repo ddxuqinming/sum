@@ -7,23 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="009166e2-edaf-4173-9793-01976ee20d33" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/mssql-jdbc-6.4.0.jre8.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sum/business/ChildTableCollection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sum/business/FieldValueCollection.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sum/business/ItemBase.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/sum/business/ItemManageBase.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataColumn.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataColumnCollection.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataResult.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataRow.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataRowCollection.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataRowState.class" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataTable.class" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/sum_war_exploded/WEB-INF/classes/sum/dataprovider/test.class" afterPath="$PROJECT_DIR$/out/artifacts/sum_war_exploded/WEB-INF/classes/sum/dataprovider/test.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/CommandBuilder.class" afterPath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/CommandBuilder.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataAccess.class" afterPath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/DataAccess.class" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/test/uEmployee.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/test.class" afterPath="$PROJECT_DIR$/out/production/sum/sum/dataprovider/test.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/artifacts/sum_war_exploded/WEB-INF/classes/db.properties" afterPath="$PROJECT_DIR$/out/artifacts/sum_war_exploded/WEB-INF/classes/db.properties" />
@@ -38,17 +22,12 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/sum/log4j.properties" afterPath="$PROJECT_DIR$/out/production/sum/log4j.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/sum/mybatis.xml" afterPath="$PROJECT_DIR$/out/production/sum/mybatis.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/log4j.properties" afterPath="$PROJECT_DIR$/src/log4j.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/business/ItemBase.java" afterPath="$PROJECT_DIR$/src/sum/business/ItemBase.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/business/ItemManageBase.java" afterPath="$PROJECT_DIR$/src/sum/business/ItemManageBase.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/dataprovider/CommandBuilder.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/CommandBuilder.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataAccess.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataAccess.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sum/dataprovider/test.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/test.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/index.jsp" afterPath="$PROJECT_DIR$/web/index.jsp" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataColumn.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataColumn.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataColumnCollection.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataColumnCollection.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataResult.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DBValue.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataRow.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataRow.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataRowCollection.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataRowCollection.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataRowState.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataRowState.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/sum/dataprovider/DataTable.java" afterPath="$PROJECT_DIR$/src/sum/dataprovider/DataTable/DataTable.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -93,18 +72,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="console.sql" pinned="false" current-in-tab="true">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/429d7d62-002a-4217-9b65-0a303d5526e0/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="1" column="16" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -150,7 +118,6 @@
         <option value="$PROJECT_DIR$/src/sum/dataprovider/DataResult.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/DataColumn.java" />
         <option value="$PROJECT_DIR$/../框架/commons-dbutils-1.7-src/commons-dbutils-1.7-src/src/main/java/org/apache/commons/dbutils/ResultSetHandler.java" />
-        <option value="$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java" />
         <option value="$PROJECT_DIR$/src/sum/common/Func.java" />
         <option value="$PROJECT_DIR$/src/sum/common/KeyValueListOf.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/DataRow.java" />
@@ -180,14 +147,16 @@
         <option value="$PROJECT_DIR$/src/sum/dataprovider/datatable/DataRowCollection.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/datatable/DataRowState.java" />
         <option value="$PROJECT_DIR$/src/sum/business/FieldValueCollection.java" />
-        <option value="$PROJECT_DIR$/src/sum/business/ItemBase.java" />
         <option value="$PROJECT_DIR$/src/sum/business/ChildTableCollection.java" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/429d7d62-002a-4217-9b65-0a303d5526e0/console.sql" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/datatable/DataRow.java" />
+        <option value="$PROJECT_DIR$/src/sum/business/ItemBase.java" />
+        <option value="$PROJECT_DIR$/src/test/uEmployee.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/datatable/DataTable.java" />
-        <option value="$PROJECT_DIR$/src/sum/dataprovider/DataAccess.java" />
+        <option value="$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java" />
         <option value="$PROJECT_DIR$/src/sum/business/ItemManageBase.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/CommandBuilder.java" />
+        <option value="$PROJECT_DIR$/src/sum/dataprovider/DataAccess.java" />
         <option value="$PROJECT_DIR$/src/sum/dataprovider/test.java" />
       </list>
     </option>
@@ -236,6 +205,10 @@
       <pane id="ProjectPane">
         <subPane>
           <expand>
+            <path>
+              <item name="sum" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sum项目" type="462c0819:PsiDirectoryNode" />
+            </path>
             <path>
               <item name="sum" type="b2602c69:ProjectViewProjectNode" />
               <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
@@ -532,7 +505,10 @@
       <workItem from="1562935684782" duration="961000" />
       <workItem from="1562936677039" duration="5498000" />
       <workItem from="1563538214307" duration="6402000" />
-      <workItem from="1563673051093" duration="16189000" />
+      <workItem from="1563673051093" duration="16295000" />
+      <workItem from="1563706332639" duration="1127000" />
+      <workItem from="1563710645327" duration="3878000" />
+      <workItem from="1563794202877" duration="2689000" />
     </task>
     <task id="LOCAL-00001" summary="导入git">
       <created>1522405308422</created>
@@ -583,40 +559,45 @@
       <option name="project" value="LOCAL" />
       <updated>1533947136567</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="添加CommandBuilder">
+      <created>1563702537016</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1563702537016</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="109718000" />
+    <option name="totallyTimeSpent" value="117518000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15572916" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3991323" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286334" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32212582" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48481563" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20208333" sideWeight="0.5" order="6" side_tool="false" content_ui="combo" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15572916" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3991323" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -625,6 +606,8 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48481563" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,25 +633,12 @@
           <properties />
           <option name="timeStamp" value="41" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/sum/business/ItemManageBase.java</url>
-          <line>182</line>
-          <properties />
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
       </breakpoints>
       <option name="time" value="67" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://M:/JAVA视频/java 2015传智播客就业班33期/day19_JDBC优化/day19_JDBC优化/day18_eg/src/cn/itcast/utils/JdbcUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-66">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://M:/JAVA视频/java 2015传智播客就业班33期/day17_jdbc基础/day17_jdbc基础/01.代码/day17/src/gz/itcast/util/JdbcUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-291">
@@ -755,7 +725,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="17" column="21" lean-forward="false" selection-start-line="17" selection-start-column="21" selection-end-line="17" selection-end-column="21" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -770,7 +739,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
           <caret line="7" column="65" lean-forward="false" selection-start-line="7" selection-start-column="65" selection-end-line="7" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -802,15 +770,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="541">
           <caret line="42" column="0" lean-forward="true" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/common/KeyValueListOf.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1342">
-          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -818,7 +777,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="20" column="22" lean-forward="false" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -833,9 +791,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="10" column="34" lean-forward="false" selection-start-line="10" selection-start-column="34" selection-end-line="10" selection-end-column="34" />
-          <folding>
-            <element signature="n#!!doc" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -878,9 +833,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="10" column="35" lean-forward="false" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
-          <folding>
-            <marker date="1523963516139" expanded="true" signature="411:469" ph="insert into uEmployee... " />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -899,26 +851,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/business/FieldValueCollection.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="20" column="73" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/datatable/DataRowCollection.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="21" column="13" lean-forward="false" selection-start-line="21" selection-start-column="13" selection-end-line="21" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="352">
-          <caret line="25" column="43" lean-forward="false" selection-start-line="25" selection-start-column="20" selection-end-line="25" selection-end-column="43" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -933,9 +869,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="14" column="0" lean-forward="false" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -943,44 +876,6 @@
       <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
         <state>
           <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="das://table:/cb667e68/429d7d62-002a-4217-9b65-0a303d5526e0/a.dbo.uemployee">
-      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
-        <state>
-          <filtering enabled="true" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/business/ItemBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="29" column="26" lean-forward="false" selection-start-line="29" selection-start-column="11" selection-end-line="29" selection-end-column="31" />
-          <folding>
-            <element signature="e#917#918#0" expanded="true" />
-            <element signature="e#973#974#0" expanded="true" />
-            <element signature="e#1016#1017#0" expanded="true" />
-            <element signature="e#1072#1073#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="88" column="34" lean-forward="false" selection-start-line="88" selection-start-column="34" selection-end-line="88" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/datatable/DataTable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="21" column="30" lean-forward="true" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -992,54 +887,123 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/common/KeyValueListOf.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="849">
+          <caret line="74" column="0" lean-forward="false" selection-start-line="74" selection-start-column="0" selection-end-line="74" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/business/FieldValueCollection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="20" column="73" lean-forward="false" selection-start-line="20" selection-start-column="33" selection-end-line="20" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://table:/cb667e68/429d7d62-002a-4217-9b65-0a303d5526e0/a.dbo.uemployee">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/business/ItemManageBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="284">
+          <caret line="127" column="49" lean-forward="true" selection-start-line="127" selection-start-column="49" selection-end-line="127" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/SQLCommand.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="20" column="25" lean-forward="true" selection-start-line="20" selection-start-column="25" selection-end-line="20" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/datatable/DataTable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/business/ItemBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="453">
+          <caret line="35" column="47" lean-forward="true" selection-start-line="35" selection-start-column="47" selection-end-line="35" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1009#1010#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="107" column="38" lean-forward="true" selection-start-line="107" selection-start-column="38" selection-end-line="107" selection-end-column="38" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/uEmployee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="37" column="18" lean-forward="false" selection-start-line="37" selection-start-column="18" selection-end-line="37" selection-end-column="18" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/429d7d62-002a-4217-9b65-0a303d5526e0/console.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/DataAccess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="179">
-          <caret line="364" column="56" lean-forward="false" selection-start-line="364" selection-start-column="56" selection-end-line="364" selection-end-column="56" />
+        <state relative-caret-position="178">
+          <caret line="450" column="9" lean-forward="true" selection-start-line="450" selection-start-column="9" selection-end-line="450" selection-end-column="9" />
           <folding>
             <element signature="method#exeSql#0;class#DataAccess#0" expanded="false" />
             <element signature="method#exeSql#1;class#DataAccess#0" expanded="false" />
             <element signature="method#insert#0;class#DataAccess#0" expanded="false" />
             <element signature="method#executeScalar#0;class#DataAccess#0" expanded="false" />
             <element signature="method#getAllColumnName#0;class#DataAccess#0" expanded="false" />
+            <element signature="e#7845#7861#0" expanded="true" />
             <element signature="method#getOneRowHashtable#0;class#DataAccess#0" expanded="false" />
             <element signature="method#isExist#0;class#DataAccess#0" expanded="false" />
             <element signature="method#close#0;class#DataAccess#0" expanded="false" />
             <element signature="method#deleteRow#0;class#DataAccess#0" expanded="false" />
+            <element signature="method#insertBean#0;class#DataAccess#0" expanded="false" />
+            <element signature="e#15240#15255#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sum/dataprovider/CommandBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="42" column="54" lean-forward="true" selection-start-line="42" selection-start-column="54" selection-end-line="42" selection-end-column="54" />
+        <state relative-caret-position="112">
+          <caret line="226" column="49" lean-forward="true" selection-start-line="226" selection-start-column="49" selection-end-line="226" selection-end-column="49" />
           <folding>
+            <element signature="method#createInsertCommand#0;class#CommandBuilder#0" expanded="false" />
+            <element signature="method#createInsertCommand#1;class#CommandBuilder#0" expanded="false" />
             <element signature="method#createUpdateCommand#0;class#CommandBuilder#0" expanded="false" />
+            <element signature="method#createUpdateCommand#1;class#CommandBuilder#0" expanded="false" />
             <element signature="method#createDeleteCommand#0;class#CommandBuilder#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sum/business/ItemManageBase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="188">
-          <caret line="127" column="43" lean-forward="false" selection-start-line="127" selection-start-column="43" selection-end-line="127" selection-end-column="43" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1057#1058#0" expanded="true" />
-            <element signature="e#1084#1085#0" expanded="true" />
-            <element signature="method#update#0;class#ItemManageBase#0" expanded="false" />
-            <marker date="1563702466258" expanded="false" signature="2189:2630" ph="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/429d7d62-002a-4217-9b65-0a303d5526e0/console.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="1" column="16" lean-forward="false" selection-start-line="1" selection-start-column="16" selection-end-line="1" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>

@@ -12,10 +12,10 @@ package sum.dataprovider;
 import sum.business.ItemBase;
 import sum.business.ItemManageBase;
 import sum.dataprovider.datatable.*;
-
+import java.lang.reflect.Field;
 import java.sql.Types;
 import java.util.*;
-
+import  test.uEmployee;
 
 
 /**
@@ -29,7 +29,7 @@ public class test {
 
     public static void main(String[] args)  {
         System.out.println("loading... xqm");
-       new test().testItembase();
+       new test().testClass();
 
 
     }
@@ -76,26 +76,45 @@ public class test {
         xudb.createSqlServerUrl("localhost",1433,"a","sa","sina",null);
         System.out.println(xudb.getUrl());
         ItemManageBase M=new ItemManageBase("uEmployee","FID");
-        M.addChildDBTable("address","FMainId","uAddress",new String[]{"FAutoID"});
-        M.setXudb(xudb);
+        M.addChildDBTable("address","FMainId","uAddress",new String[]{"FAutoID","FMainID"});
+        M.xudb=xudb;
         xudb.printSql=true;
        ;
-        ItemBase item = M.getNewItem();
+        ItemBase item = M.getItem(35);
         item.setValue("FName","喜地方new");
         item.setValue("FAge","1");
         //子表测试
-        DataTable dtb= item.ChildTables().getValue(0);
-        DataRow drw = dtb.newRow();
-        drw.setValue("FAdress","上海市嘉定区123号");
-        drw.setValue("FZip","230081");
+        DataTable dtb= item.getChildTable(0);
+        DataRow drw = dtb.rows(0);
+        drw.setValue("FAdress","上海市嘉定区123号3ffff");
+        drw.setValue("FZip","2300813");
         DataRow drw3 = dtb.newRow();
-        drw3.setValue("FAdress","北京朝阳大道99号");
-        drw3.setValue("FZip","1001001");
-        //
-        M.add(item);
+         drw3.setValue("FAdress","北京朝阳大道99号3");
+         drw3.setValue("FZip","10010013");
+
+        M.update(item);
 
 
         System.out.println("FAutoID=" + drw3.getValue("FAutoID"));
 
     }
+
+    private  void  testClass(){
+        uEmployee emp=new uEmployee();
+        emp.FID=39;
+        emp.Fname="徐秦敏2";
+        emp.FAge=12.4;
+
+        DataAccess xudb=new DataAccess();
+        //  xudb.createMySqlUrl("localhost",3306,"xusoft","root","111",null);
+        xudb.createSqlServerUrl("localhost",1433,"a","sa","sina",null);
+
+        xudb.deleteBean(emp,"uEmployee",new  String[]{"FID"});
+
+        System.out.println(emp.FID);
+    }
+
+
 }
+
+

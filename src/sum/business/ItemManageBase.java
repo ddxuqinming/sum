@@ -18,6 +18,7 @@ import sum.dataprovider.datatable.DataColumn;
 import sum.dataprovider.datatable.DataRow;
 import sum.dataprovider.datatable.DataRowState;
 import sum.dataprovider.datatable.DataTable;
+import sun.font.TrueTypeFont;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,16 +33,12 @@ import java.util.List;
  * Description:  业务管理类
  */
 public class ItemManageBase {
-    DataAccess xudb=null;
-    String  tableName;
-    String  primaryKey ;
-    List<ChildTableRelation> childTableRelations;
-    public DataAccess getXudb() {
-        return xudb;
-    }
-    public void setXudb(DataAccess xudb) {
-        this.xudb = xudb;
-    }
+    public DataAccess xudb=null;
+    private String  tableName;
+    private String  primaryKey ;
+    private List<ChildTableRelation> childTableRelations;
+    public  boolean autoUseingTransaction =true;
+
     public  ItemManageBase(String tableName,String keyField){
        this.tableName=tableName;
        this.primaryKey=keyField;
@@ -50,7 +47,7 @@ public class ItemManageBase {
    }
     public  ItemBase getNewItem(){
         String sql= "select * from " + tableName + " where 1=0"  ;
-        DataTable  dtb = this.getXudb().getDataTable(sql);
+        DataTable  dtb = this.xudb.getDataTable(sql);
         ItemBase item =new ItemBase();
         for (int i=0;i<dtb.columns().size();i++){
             item.FieldValues().add(dtb.columns(i).getColumnName(),null);
@@ -80,14 +77,14 @@ public class ItemManageBase {
     }
     public   DataTable onLoadChildDataTable(ItemBase item,String childName, String dbChildTableName,String where){
         String sql= "select * from " + dbChildTableName + " where "  +  where;
-        DataTable dtb= this.getXudb().getDataTable(sql);
+        DataTable dtb= this.xudb.getDataTable(sql);
         dtb.setTableName(childName);
         return  dtb;
     }
     public  ItemBase getItem(Integer   Key){
        String where= primaryKey + "=" + Key;
        String sql= "select * from " + tableName + " where " +  where;
-        DataTable  dtb = this.getXudb().getDataTable(sql);
+        DataTable  dtb = this.xudb.getDataTable(sql);
         if ( dtb.rows().size()==0 ) return null;
         ItemBase item =new ItemBase();
         DataRow drwMain = dtb.rows(0);
@@ -112,7 +109,7 @@ public class ItemManageBase {
 
   public boolean add(ItemBase item){
         String sql= "select * from " + tableName + " where 1=0"  ;
-        DataTable  dtb = this.getXudb().getDataTable(sql);
+        DataTable  dtb = this.xudb.getDataTable(sql);
         DataRow drwNew = dtb.newRow();
         for (int i=0;i<item.FieldValues().size() ;i++){
             drwNew.setValue(item.FieldValues().getKey(i),item.FieldValues().getValue(i));
@@ -120,12 +117,15 @@ public class ItemManageBase {
 
        //1插入到数据库
         SQLCommand insertCommand;
-        CommandBuilder commandBuilder=new CommandBuilder(this.tableName,this.getXudb());
+        CommandBuilder commandBuilder=new CommandBuilder(this.tableName,this.xudb);
         insertCommand=commandBuilder.createInsertCommand(drwNew);
-       int autoid = this.getXudb().insert(insertCommand);
+        if (this.autoUseingTransaction )
+            xudb.beginTrans();
+
+       int autoid = this.xudb.insert(insertCommand);
         //2返回自动递增列
-        if (dtb.AutoColumn!="")
-            item.FieldValues().setValue(dtb.AutoColumn,autoid);
+        if (insertCommand.AutoColumn!="")
+            item.FieldValues().setValue(insertCommand.AutoColumn,autoid);
 
        //3保存子表
        if (childTableRelations!=null )  {
@@ -137,14 +137,15 @@ public class ItemManageBase {
                this.saveChildTable(item.ChildTables().getValue(child.childName),child.dbChildTableName, child.childForeginField,parentID,child.childKeyFields);
           }
       }
-
+      if (this.autoUseingTransaction)
+          xudb.commitTrans();
         return  true;
     }
 
     public boolean update(ItemBase item){
         String where= primaryKey + "=" + item.FieldValues().getValue (primaryKey);
         String sql= "select * from " + tableName + " where " +  where;
-        DataTable  dtb = this.getXudb().getDataTable(sql);
+        DataTable  dtb = this.xudb.getDataTable(sql);
         if ( dtb.rows().size()==0 ) throw new RuntimeException("update:数据库中找不到对象值");
         DataRow drwItem = dtb.rows(0);
         for (int i=0;i<item.FieldValues().size() ;i++){
@@ -153,12 +154,14 @@ public class ItemManageBase {
 
         //1保存到数据库
         SQLCommand updateCommand;
-        CommandBuilder commandBuilder=new CommandBuilder(this.tableName,this.getXudb());
+        CommandBuilder commandBuilder=new CommandBuilder(this.tableName,this.xudb);
         String[] keyFields = new String[1];
         keyFields[0]=primaryKey  ;
 
         updateCommand=commandBuilder.createUpdateCommand(drwItem,keyFields);
-        this.getXudb().exeSql (updateCommand);
+        if (this.autoUseingTransaction)
+            xudb.beginTrans();
+        this.xudb.exeSql (updateCommand);
 
 
         //3保存子表
@@ -171,22 +174,43 @@ public class ItemManageBase {
             }
         }
 
-
+        if (this.autoUseingTransaction)
+            xudb.commitTrans();
          return  true;
     }
 
     private  void  saveChildTable(DataTable dtb, String dbtableName, String foreginField, int parentID,String[] childKeyFields){
-
         for (int i=0;i<dtb.rows().size();i++){
-             dtb.rows(i).setValue(foreginField,parentID);
+            if (dtb.rows(i).getDataRowState()== DataRowState.Added )
+              dtb.rows(i).setValue(foreginField,parentID);
         }
-        this.getXudb().saveTable(dtb,dbtableName,childKeyFields);
+        this.xudb.saveTable(dtb,dbtableName,childKeyFields);
     }
-
+    private  void  deleteChildTable(DataTable dtb, String dbtableName, String foreginField, int parentID,String[] childKeyFields){
+        for (int i=0;i<dtb.rows().size();i++){
+            if (dtb.rows(i).getDataRowState()!= DataRowState.Added )
+                dtb.rows(i).delete();
+        }
+        this.xudb.saveTable(dtb,dbtableName,childKeyFields);
+    }
     public boolean delete(ItemBase item){
+        if (this.autoUseingTransaction)
+            xudb.beginTrans();
+        //1删除子表
+        if (childTableRelations!=null )  {
+            DataTable dtbChild;
+            Integer parentID = Integer.parseInt( item.getValue(this.primaryKey).toString());
+            for (int i=0;i<childTableRelations.size();i++){
+                ChildTableRelation child=childTableRelations.get(i);
+                this.deleteChildTable(item.ChildTables().getValue(child.childName),child.dbChildTableName, child.childForeginField,parentID,child.childKeyFields);
+            }
+        }
+        //2删除主表
         String where= primaryKey + "=" + item.FieldValues().getValue (primaryKey);
         String sql= "delete from " + tableName + " where " +  where;
-        this.getXudb().exeSql(sql);
+        this.xudb.exeSql(sql);
+        if (this.autoUseingTransaction)
+            xudb.commitTrans();
          return  true;
     }
 }

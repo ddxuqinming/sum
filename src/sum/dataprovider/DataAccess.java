@@ -7,6 +7,7 @@
 package sum.dataprovider;
 
 
+import java.lang.reflect.Field;
 import java.sql.*;
 
 import java.util.LinkedHashMap;
@@ -355,16 +356,9 @@ public class DataAccess {
         insertCommand=null;
         updateCommand=null;
         deleteCommand=null;
-
-
-        int autoID=0;
         for (int i=0;i< dataTable.rows().size();i++){
-            if  (dataTable.rows(i).getDataRowState()== DataRowState.Added){
-                autoID= insertRow(dataTable.rows(i),tableName);
-                if (dataTable.AutoColumn!=""){
-                    dataTable.rows(i).setValue(dataTable.AutoColumn,autoID);
-                }
-           }
+            if  (dataTable.rows(i).getDataRowState()== DataRowState.Added)
+                insertRow(dataTable.rows(i),tableName);
 
             else  if  (dataTable.rows(i).getDataRowState()== DataRowState.Modified)
                 updateRow(dataTable.rows(i),tableName,keyFields);
@@ -388,8 +382,11 @@ public class DataAccess {
                 insertCommand.FieldValues.setValue(columnName,dataRow.getValue(columnName));
               }
         }
-          return this.insert(insertCommand);
-
+        int autoID=  this.insert(insertCommand);
+        if (insertCommand.AutoColumn!=""){
+            dataRow.setValue(insertCommand.AutoColumn,autoID);
+        }
+        return  autoID;
     }
     private int updateRow(DataRow dataRow, String tableName, String[] keyFields){
         if (updateCommand==null) {
@@ -419,6 +416,79 @@ public class DataAccess {
             }
         }
         return this.exeSql(deleteCommand);
+
+    }
+
+    public int insertBean(Object bean, String tableName){
+         KeyValueListOf<String,Object> kv=getBeanField(bean);
+         SQLCommand cmdInsert;
+         CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+         cmdInsert=commandBuilder.createInsertCommand(kv);
+         String columnName ;
+          for(int i=0;i<cmdInsert.FieldValues.size();i++) {
+                columnName= cmdInsert.FieldValues.getKey(i);
+                cmdInsert.FieldValues.setValue(columnName,kv.getValue(columnName));
+          }
+
+        int autoID=  this.insert(cmdInsert);
+        if (cmdInsert.AutoColumn!=""){
+            setBeanFieldValue(bean,cmdInsert.AutoColumn,autoID);
+
+        }
+        return  autoID;
+
+    }
+
+    public int updateBean(Object bean, String tableName, String[] keyFields){
+        KeyValueListOf<String,Object> kv=getBeanField(bean);
+        SQLCommand cmdupdate;
+        CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+        cmdupdate=commandBuilder.createUpdateCommand(kv,keyFields);
+        String columnName ;
+        for(int i=0;i<cmdupdate.FieldValues.size();i++) {
+            columnName= cmdupdate.FieldValues.getKey(i);
+            cmdupdate.FieldValues.setValue(columnName,kv.getValue(columnName));
+        }
+        return this.exeSql(cmdupdate);
+
+    }
+    public int deleteBean(Object bean, String tableName, String[] keyFields){
+        KeyValueListOf<String,Object> kv=getBeanField(bean);
+        SQLCommand cmdDelete;
+        CommandBuilder  commandBuilder=new CommandBuilder(tableName,this);
+        cmdDelete=commandBuilder.createDeleteCommand(kv,keyFields);
+        String columnName ;
+        for(int i=0;i<cmdDelete.FieldValues.size();i++) {
+            columnName= cmdDelete.FieldValues.getKey(i);
+            cmdDelete.FieldValues.setValue(columnName,kv.getValue(columnName));
+        }
+        return this.exeSql(cmdDelete);
+
+    }
+    private  KeyValueListOf<String,Object> getBeanField(Object bean){
+        KeyValueListOf<String,Object> kv=new KeyValueListOf<String,Object>();
+
+        try {
+            Field[] fieldArray = bean.getClass().getFields();
+            for(Field f : fieldArray){
+                kv.add(f.getName(),f.get(bean));
+
+                //Object value = f.get(bean);
+               // System.out.println(f.getName() + '=' + value );
+            }
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
+        return kv;
+    }
+    private  void setBeanFieldValue(Object bean,String fieldname,Object value){
+
+        try {
+            Field f = bean.getClass().getField(fieldname);
+            f.set(bean,value);
+        }catch (Exception ex){
+            throw new RuntimeException(ex.getMessage());
+        }
 
     }
     public interface ResultSetHandler<T>{
